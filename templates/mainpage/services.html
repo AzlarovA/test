@@ -1,0 +1,30 @@
+{% load static %}
+
+<section class="container">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Что мы предлагаем</h1>
+      <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+    </div>
+    <div class="row" >
+      <div class="col-lg-4" style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+        <img src="{{main.movies.url}}" alt="" style="width: 140px;height: 140px;border-radius: 25%;">
+        <h2 class="fw-normal">A.Movies</h2>
+        <p>Смотрите фильмы с нами!</p>
+        <p><a class="btn btn-secondary" href="{% url 'movies:movie_page'%}">Перейти  &raquo;</a></p>
+      </div>
+      <div class="col-lg-4" style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+        <img src="{{main.queue.url}}" alt="" style="width: 140px;height: 140px;border-radius: 25%;">
+        <h2 class="fw-normal">A.Qu</h2>
+        <p>Задайте свой вопрос!</p>
+        <p><a class="btn btn-secondary" href="{% url 'QnA:questions_list' %}">Перейти  &raquo;</a></p>
+      </div>
+      <div class="col-lg-4" style="display: flex;flex-direction: column;align-items: center;justify-content: center;">
+        <img src="{{main.music.url}}" alt="" style="width: 140px;height: 140px;border-radius: 25%;">
+        <h2 class="fw-normal">A.Music</h2>
+        <p>Погрузитесь в мир музыки!</p>
+        <p><a class="btn btn-secondary">Скоро &raquo;</a></p>
+      </div>
+    </div>
+
+  <hr class="featurette-divider" style="border: 1px solid #fda90f;">
+</section>

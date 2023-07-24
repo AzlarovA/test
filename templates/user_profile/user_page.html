@@ -1,0 +1,88 @@
+
+<section class="container">
+    <div class="bd-example-snippet bd-code-snippet">
+          <div class="bd-example m-0 border-0">
+            <nav>
+              <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Мои фильмы</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Мои вопросы</button>
+                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Моя музыка</button>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        {% if movie_lists%}
+                            {% for title, movies in movie_lists %}
+                                <button class="nav-link {% if forloop.first %}active{% endif %}" id="v-pills-{{ forloop.counter }}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{{ forloop.counter }}" type="button" role="tab" aria-controls="v-pills-{{ forloop.counter }}" aria-selected="{{ forloop.first|yesno:'true,false' }}">
+                                    {{ title }}
+                                </button>
+                            {% endfor %}
+                        {% else%}
+                            <h2>Начните свой пусть в мир кино. <a href="{% url 'movies:movie_page'%}">Перейти</a></h2>
+                        {% endif %}
+                    </div>
+                    <div class="tab-content" id="v-pills-tabContent">
+                        {% for title, movies in movie_lists %}
+                            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="v-pills-{{ forloop.counter }}" role="tabpanel" aria-labelledby="v-pills-{{ forloop.counter }}-tab">
+                                <div>
+                                    {% for movie in movies %}
+                                        <div>
+                                            <a class="text-decoration-none" href="{% url 'movies:movie_detail' movie.slug %}">
+                                                <img src="{{ movie.image.url }}" alt="{{ movie.name }}" class="img-fluid" style="max-height: 70px;">
+                                                <h5>{{ movie.name }}</h5>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active" id="v-pills-questions-tab" data-bs-toggle="pill" data-bs-target="#v-pills-questions" type="button" role="tab" aria-controls="v-pills-questions" aria-selected="true">
+                            Ваши вопросы
+                        </button>
+                        <button class="nav-link" id="v-pills-answers-tab" data-bs-toggle="pill" data-bs-target="#v-pills-answers" type="button" role="tab" aria-controls="v-pills-answers" aria-selected="false">
+                            Ваши ответы
+                        </button>
+                    </div>
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-questions" role="tabpanel" aria-labelledby="v-pills-questions-tab">
+                            {% if movie_lists%}
+                                {% for question in qna_lists.questions %}
+                                    <div>
+                                        <a href="{% url 'QnA:question_detail' question.pk %}">{{ question.title }}</a>
+                                    </div>
+                                {% endfor %}
+                            {% else%}
+                                <h2>Начните задавать увлекательные вопросы. <a href="{% url 'QnA:questions_list'%}">Перейти</a></h2>
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-answers" role="tabpanel" aria-labelledby="v-pills-answers-tab">
+                            {% if movie_lists%}
+                                {% for answer in qna_lists.answers %}
+                                    <div>
+                                        {% for topic in answer.topic.all %}
+                                            <a href="{% url 'QnA:question_detail' topic.pk %}">{{ topic}}</a>
+                                        {% endfor %}
+                                        : {{ answer.content }}
+                                    </div>
+                                {% endfor %}
+                            {% else%}
+                                <h2>Помогате другим, отвечайте на вопросы. <a href="{% url 'QnA:questions_list'%}">Перейти</a></h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><h2>Скоро добавим, ждите!</h2></div>
+            </div>
+          </div>
+        </div>
+</section>

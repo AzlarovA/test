@@ -1,0 +1,9 @@
+{% extends 'layout/mainpage/base.html' %}
+
+{% block content %}
+<section class="container">
+    <h1>Страница не найдена</h1>
+    <p>Извините, но запрашиваемая вами страница не найдена.</p>
+    <a href="{% url 'main:mainpage_view' %}">Вернуться на главную страницу</a>
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+
+<section>
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">Что слушают сейчас</h2>
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        {% for pplr in popular %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{pplr.image.image.url}}" style="object-fit: cover;" class="card-img-top" alt="{{pplr.title}}">
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>

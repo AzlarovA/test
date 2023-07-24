@@ -1,0 +1,12 @@
+{% extends 'layout/mainpage/base.html' %}
+{% load static %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    {% include 'mainpage\banner.html' %}
+    {% include 'mainpage\services.html' %}
+    {% include 'mainpage\subscriptions.html'%}
+{% endblock %}

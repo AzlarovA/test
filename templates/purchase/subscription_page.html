@@ -1,0 +1,64 @@
+{% extends 'layout/mainpage/base.html' %}
+{% load static %}
+
+{% block title %}
+    Купить подписку
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="px-4 pt-5 my-5 text-center">
+        <h1 class="display-4 fw-bold text-body-emphasis">Подписка</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">на все сервисы и услуги всего за</p>
+            <form method="post">
+              {% csrf_token %}
+              <div class="d-grid gap-5 d-sm-flex justify-content-sm-center mb-5" style="display:flex;">
+                <div>
+                  <p class="lead mb-4"><h2>{{subs.subscription_1}}$</h2>на 1 месяц</p>
+                  <button type="submit" name="subscription_type" value="monthly" class="btn my_btn_style btn-lg px-4 me-sm-3">Купить</button>
+                </div>
+                <div>
+                  <p class="lead mb-4"><h2>{{subs.subscription_2}}$</h2>на 3 месяцев</p>
+                  <button type="submit" name="subscription_type" value="3-months" class="btn my_btn_style btn-lg px-4 me-sm-3">Купить</button>
+                </div>
+                <div>
+                  <p class="lead mb-4"><h2>{{subs.subscription_3}}$</h2>на 6 месяцев</p>
+                  <button type="submit" name="subscription_type" value="6-months" class="btn my_btn_style btn-lg px-4 me-sm-3">Купить</button>
+                </div>
+                <div>
+                  <p class="lead mb-4"><h2>{{subs.subscription_4}}$</h2>на 12 месяцев</p>
+                  <button type="submit" name="subscription_type" value="yearly" class="btn my_btn_style btn-lg px-4 me-sm-3">Купить</button>
+                </div>
+              </div>
+            </form>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+              {{photo.image.url}}
+            <img src="{{photo.image.url}}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+              <hr class="featurette-divider" style="border: 1px solid #fda90f;">
+          </div>
+        </div>
+      </div>
+
+</section>
+<section class="container">
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">Подписка включает</h2>
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+            <h2><a href="{% url 'movies:movie_page' %}">A.Movies</a></h2>
+            {% for pplr in popular|slice:":3" %}
+                <div class="col">
+                    <div class="card">
+                        <img src="{{pplr.image.image.url}}" style="object-fit: cover;" class="card-img-top" alt="{{pplr.title}}">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        Music section
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout/mainpage/base.html' %}
+{% load static %}
+
+{% block title %}
+    Оплата подписки
+{% endblock %}
+
+{% block content %}
+{% if user_profile.premium %}
+<section class="container">
+  <h2>У вас уже есть подписка, которая истекает {{ user_profile.premium_expiry_date }}</h2>
+</section>
+{% else %}
+<section class="bg-body-tertiary">
+  <div class="container">
+    <div class="py-5 text-center">
+      <h2>Оплата</h2>
+    </div>
+    <div class="row g-5">
+      <div class="col-md-7 col-lg-8">
+        <form id="payment-form" class="needs-validation" novalidate action="{% url 'subscription:payment_processing_view' %}" method="post">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="username" class="form-label">Ваш юзернейм</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">@</span>
+                <input type="text" class="form-control" id="username" placeholder="Юзернейм" required value="{{ username }}">
+                <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="email" class="form-label">Ваш имейл</label>
+              <input type="email" class="form-control" id="email" placeholder="вы@example.com" value="{{ email }}">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Что вы покупаете:</h4>
+          <div class="my-3">
+            <div class="form-check d-flex justify-content-between">
+              <div class="d-flex align-items-center">
+                <div class="spinner-border text-success" role="status"></div>
+                <input type="hidden" name="subscription_type" value="{{ subscription_type }}">
+                <h5 class="form-check-label">{{ subscription_description }}</h5>
+              </div>
+              <h5>{{price}}$</h5>
+            </div>
+          </div>
+
+          <h4>Данные карты</h4>
+          <div id="card-element"></div>
+          <div id="card-errors" role="alert"></div>
+          <button type="submit">Оплатить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

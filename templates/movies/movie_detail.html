@@ -1,0 +1,63 @@
+{% extends 'layout/AMovies/base.html'%}
+
+{% block title %}
+    {{movie.title}}
+{% endblock %}
+
+{% block content %}
+    <section class="container mt-4">
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2 mt-3">
+                <h2 class="featurette-heading fw-normal lh-1">{{movie.name}}</h2>
+                <div class="box"></div>
+                <br>
+                <p class="lead">{{movie.description}}</p>
+                <h5>Жанры:</h5>
+                <div style="display:flex;">
+                    {% for genre in movie.genre.all %}
+                        <a class="text-decoration-none me-2 genre" href="{% url 'movies:genre_detail' genre.slug %}">{{genre}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col" style="width:400px;">
+                 <img src="{{ movie.image.url }}" alt="" width="400">
+            </div>
+        </div>
+    </section>
+    <section class="container mt-4 d-flex gap-2 align-items-center flex-wrap">
+        <label>Сохранить как:</label>
+        <form method="post" action="{% url 'movies:save_movie' movie.slug %}">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="saved">
+            <button type="submit" class="btn {% if movie in user_saved_movies.saved_movies.all %}btn-info{% else %}btn-outline-info{% endif %}">Посммотреть позже</button>
+        </form>
+        <form method="post" action="{% url 'movies:save_movie' movie.slug %}">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="watched">
+            <button type="submit" class="btn {% if movie in user_saved_movies.watched_movies.all %}btn-info{% else %}btn-outline-info{% endif %}">Просмотренный</button>
+        </form>
+        <form method="post" action="{% url 'movies:save_movie' movie.slug %}">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="dropped">
+            <button type="submit" class="btn {% if movie in user_saved_movies.dropped_movies.all %}btn-info{% else %}btn-outline-info{% endif %}">Брошенный</button>
+        </form>
+        <form method="post" action="{% url 'movies:save_movie' movie.slug %}">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="favorite">
+            <button type="submit" class="btn {% if movie in user_saved_movies.favorite_movies.all %}btn-info{% else %}btn-outline-info{% endif %}">Любимый</button>
+        </form>
+    </section>
+    <section class="container mt-4 position-relative">
+    <div id="player"></div>
+        {% if not premium %}
+            <div class="position-absolute top-0 end-0 bottom-0 start-0"></div>
+            <div class="position-absolute top-50 start-50 translate-middle p-4 bg-white border genre border-dark rounded">
+                {% if request.user.is_authenticated %}
+                    <p>Вы должны купить подписку, чтобы просматривать это видео.</p>
+                {% else %}
+                    <p>Только авторизованные пользователи с активной подпиской могут просматривать это видео.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layout/users/base.html'%}
+{% load static %}
+
+{% block title %}
+   Логин
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+    <section class="container">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <h1>Вы точно хотите выйти?</h1>
+            <input type="submit" value="Выйти">
+        </form>
+{% else %}
+    <section class="container"><h1>Вы ещё не выполнили вход</h1></section>
+{% endif %}
+{% endblock %}

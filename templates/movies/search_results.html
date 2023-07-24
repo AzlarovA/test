@@ -1,0 +1,81 @@
+{% extends 'layout/AMovies/base.html'%}
+
+{% block title %}
+    Детальный поиск
+{% endblock %}
+
+{% block content %}
+    <section class="container" style="display:flex; gap:10px;">
+        <div style="max-width: 400px;">
+            <h1>Поиск</h1>
+            <form >
+                {% csrf_token %}
+                <div class="row form-group">
+                    {{form.as_p}}
+                    <label for="release_year_from">Год выпуска:</label>
+                    <span id="release_year_from_display"></span>
+                    <div id="release_year_slider"></div>
+                    <span id="release_year_to_display"></span>
+                    <br>
+                    <input type="hidden" id="release_year_from" name="release_year_from">
+                    <input type="hidden" id="release_year_to" name="release_year_to">
+
+                    <label for="rating_from">Рейтинг:</label>
+                     <span id="rating_from_display"></span>
+                    <div id="rating_slider"></div>
+                    <span id="rating_to_display"></span>
+                    <br>
+                    <input type="hidden" id="rating_from" name="rating_from">
+                    <input type="hidden" id="rating_to" name="rating_to">
+
+                    <div class="form-group">
+                        <input type="submit" value="Send Message" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <h3>Результат:</h3>
+            <div>
+                {% if page_obj %}
+                    <ul>
+                        {% for result in page_obj %}
+                            <div style="display:flex; gap:10px;">
+                                <img style="width:200px; height:300px;" src="{{result.image.url}}">
+                                <div>
+                                    <p>{{result.name}}</p>
+                                    <div>{{result.description}}</div>
+                                    <div>
+                                        {% for genr in result.genre.all %}
+                                            <a class="genre" href="{% url 'movies:genre_detail' genr.slug %}">{{genr}}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <br>
+                                    <a class="genre" href="{% url 'movies:movie_detail' result.slug %}">Смотреть</a>
+                                </div>
+                            </div>
+                        <br>
+                        {% endfor %}
+                    </ul>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current-page">{{ page_obj.number }}</span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+                {% else %}
+                    <p>Ничего не найдено.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

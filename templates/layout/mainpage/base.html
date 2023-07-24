@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'layout/mainpage/head.html' %}
+<body>
+    <div class="page-container d-flex flex-column min-vh-100">
+        {% include 'layout/mainpage/nav.html' %}
+
+        <div class="content flex-grow-1">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+        <div class="footer mt-auto">
+            {% include 'layout/mainpage/footer.html' %}
+        </div>
+    </div>
+</body>
+</html>

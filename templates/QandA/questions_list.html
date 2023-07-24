@@ -1,0 +1,48 @@
+
+<section class="page-container container">
+    <div class="">
+        <a class="ask-question button" href="{% url 'QnA:question_create' %}">Задайте вопрос</a>
+    </div>
+    <div class="questions">
+        {% for question in page_obj %}
+            <div class="question d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex">
+                    <img src="{{question.author.image.url}}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height=50" alt="no image">
+                    <div>
+                        <p class="pb-3 mb-0 small lh-sm">
+                            <a href="{% url 'user:user_profile' question.author.user.username %}"><strong class="d-block text-gray-dark">@{{question.author.nickname}}</strong></a>
+                        </p>
+                        <div class="d-flex flex-column content">
+                            <b class="mr-2" style="overflow-wrap: break-word; max-width: 851px;">{{ question.title }}</b>
+                            <div class="text">{{ question.content|truncatechars:40 }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-direction-column" style="gap:26px;">
+                    <div class="h-100">
+                        {% for genre in question.genre.all|slice:":3" %}
+                            <a class="mr-2 tags" href="{% url 'QnA:tag_questions' genre %}">{{ genre }}</a>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <a class="button" href="{% url 'QnA:question_detail' pk=question.pk %}">Ответить</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pagination">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1">&laquo; first</a>
+              <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current-page">{{ page_obj.number }}</span>
+
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">next</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+</section>

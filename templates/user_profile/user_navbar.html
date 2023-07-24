@@ -1,0 +1,89 @@
+{% load custom_filters %}
+
+<section class="container d-flex p-2">
+    <form id="update-image-form" action="{% url 'user:update_image' user.user.username %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="position: relative;">
+            <img src="{{ user.image.url }}" id="user-image" style="width: 100px; height: 100px;" alt="Аватар пользователя" class="bd-placeholder-img flex-shrink-0 rounded-circle border border-dark">
+            {% if request.user == user.user %}
+                <label for="image-input" id="change-image-button" style="position: absolute; bottom: 0; right: 0; cursor: pointer; z-index:20; font-size: 24px;">+</label>
+                <input type="file" id="image-input" name="image" style="display: none;" accept="image/*">
+                <input type="hidden" id="crop-x" name="crop_x">
+                <input type="hidden" id="crop-y" name="crop_y">
+                <input type="hidden" id="crop-width" name="crop_width">
+                <input type="hidden" id="crop-height" name="crop_height">
+            {% endif %}
+        </div>
+    </form>
+
+    <div class="modal fade" id="crop-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Выберите область обрезки</h5>
+                    <button type="button" class= "btn-close" data-bs-dismiss= "modal"></button>
+                </div>
+                <div class= "modal-body">
+                    <img id= "cropper-image">
+                </div>
+                <div class= "modal-footer">
+                    <button type= "button"class= "btn btn-secondary"data-bs-dismiss= "modal">Закрыть</button>
+                    <button type= "button"class= "btn btn-primary"id= "apply-crop">Применить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="p-2">
+            <h2>{{user.nickname}}</h2>
+            <h6><span>@</span>{{user.user}}</h6>
+        </div>
+
+        <div class="ml-auto p-2">
+            <div class="container d-flex flex-column">
+                <span id="rateMe2" class="empty-stars"></span>
+            <span id="average-rating"></span>
+            <script>
+                $("#rateMe2").starRating({
+                    starSize: 25,
+                    initialRating: {{ user.rating|format_float:5|default:0 }},
+                    totalStars: 10,
+                    useFullStars: true,
+                    disableAfterRate: false,
+                    readOnly: {% if not request.user.is_authenticated or request.user == user.user %}true{% else %}false{% endif %},
+                    onHover: function(currentIndex, currentRating, $el){
+                        $('.live-rating').text(currentIndex);
+                    },
+                    onLeave: function(currentIndex, currentRating, $el){
+                        $('.live-rating').text(currentRating);
+                    },
+                    callback: function(currentRating, $el){
+                        jQuery.ajax({
+                            url: "{% url 'user:rate_user' user.user.username %}",
+                            method: "POST",
+                            data: {
+                                rating: currentRating,
+                                csrfmiddlewaretoken: "{{ csrf_token }}"
+                            },
+                            success: function(data) {
+                                $("#average-rating").text(`Средняя оценка: ${data.average_rating} (${data.rating_count} оценок)`);
+                            }
+                        });
+                    }
+                });
+                $("#average-rating").text(`Рейтинг: {{ user.rating|default:0 }}`);
+            </script>
+        </div>
+            <h5>{{user.email}}</h5>
+            {% if request.user == user.user %}
+                <div><a href="{% url 'user:user_edit' user.user.username %}">Редактировать профиль</a></div>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+</section>
+
+

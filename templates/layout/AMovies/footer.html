@@ -1,0 +1,99 @@
+{% load static %}
+  <footer class="text-center text-lg-start mt-3 text-muted container">
+    <section>
+      <br>
+      <hr class="featurette-divider" style="border: 1px solid WHITE;">
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 ">&copy; 2023 AIWIKS, Inc</span>
+      </div>
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+        <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+      </ul>
+    </section>
+  </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="{% static 'player/playerjs.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14/distribute/nouislider.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <script>
+        var player = new Playerjs({id:"player", file:"{{MEDIA_URL}}/media/{{movie.video_file}}"});
+    </script>
+    <script>
+      // Set the initial values for the release year slider
+      var release_year_min = 1900;
+      var release_year_max = new Date().getFullYear();
+      var release_year_from = release_year_min;
+      var release_year_to = release_year_max;
+
+      // Create the release year slider
+      $("#release_year_slider").slider({
+          range: true,
+          min: release_year_min,
+          max: release_year_max,
+          values: [release_year_from, release_year_to],
+          slide: function(event, ui) {
+              // Update the display and hidden input elements with the current slider values
+              $("#release_year_from_display").text(ui.values[0]);
+              $("#release_year_to_display").text(ui.values[1]);
+              $("#release_year_from").val(ui.values[0]);
+              $("#release_year_to").val(ui.values[1]);
+          }
+      });
+
+      // Set the initial values for the display and hidden input elements
+      $("#release_year_from_display").text(release_year_from);
+      $("#release_year_to_display").text(release_year_to);
+      $("#release_year_from").val(release_year_from);
+      $("#release_year_to").val(release_year_to);
+
+      // Set the initial values for the rating slider
+      var rating_min = 0;
+      var rating_max = 10;
+      var rating_from = rating_min;
+      var rating_to = rating_max;
+
+      // Create the rating slider
+      $("#rating_slider").slider({
+          range: true,
+          min: rating_min,
+          max: rating_max,
+          values: [rating_from, rating_to],
+          slide: function(event, ui) {
+              // Update the display and hidden input elements with the current slider values
+              $("#rating_from_display").text(ui.values[0]);
+              $("#rating_to_display").text(ui.values[1]);
+              $("#rating_from").val(ui.values[0]);
+              $("#rating_to").val(ui.values[1]);
+          }
+      });
+
+      // Set the initial values for the display and hidden input elements
+      $("#rating_from_display").text(rating_from);
+      $("#rating_to_display").text(rating_to);
+      $("#rating_from").val(rating_from);
+      $("#rating_to").val(rating_to);
+  </script>
+</body>
+</html>

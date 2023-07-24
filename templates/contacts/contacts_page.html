@@ -1,0 +1,45 @@
+{% extends 'layout/mainpage/base.html' %}
+{% load static %}
+
+{% block title %}
+    Наши Контакты
+{% endblock %}
+
+{% block content %}
+    <section class="container mt-4" style="display:flex; justify-content: space-between; flex-wrap:wrap;">
+        <div style="width:40%;" class="contact-faq">
+            <h2>Часто задаваемые вопросы</h2>
+            <div class="bd-example-snippet bd-code-snippet">
+                <div class="bd-example m-0 border-0">
+                    <div class="accordion" id="accordionExample">
+                        {% for f in faq %}
+                            <div class="accordion-item">
+                                <h4 class="accordion-header">
+                                    <button class="accordion-button my_color" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                        {{ f.que }}
+                                    </button>
+                                </h4>
+                                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">{{ f.ans }}</div>
+                                </div>
+                            </div>
+                        <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 animate-box contact-faq">
+            <h2>Свяжитесь с нами</h2>
+           <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit" class="btn my_btn_style">
+            </form>
+            <br>
+            {% if message %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

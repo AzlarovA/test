@@ -1,0 +1,11 @@
+{% extends 'layout/users/base.html' %}
+{% load static %}
+
+{% block title %}
+    Ваш профиль
+{% endblock %}
+
+{% block content %}
+    {% include 'user_profile\user_navbar.html' %}
+    {% include 'user_profile\user_page.html' %}
+{% endblock %}

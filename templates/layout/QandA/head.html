@@ -1,0 +1,147 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Pathway Extreme', sans-serif;
+        }
+        body {
+            /* Задаем фоновый цвет для всей страницы */
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            /* Добавляем отступы и тень для контейнера */
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .ask-question {
+            /* Стилизуем ссылку "Ask a question" */
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .ask-question:hover {
+            /* Добавляем эффект при наведении на ссылку "Ask a question" */
+            background-color: #0069d9;
+        }
+
+        .questions {
+            /* Добавляем отступы для блока с вопросами */
+            margin-top: 20px;
+        }
+
+        .question {
+            /* Добавляем отступы и рамку для каждого вопроса */
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question:last-child {
+            /* Убираем рамку у последнего вопроса */
+            border-bottom: none;
+        }
+
+        .question a {
+            /* Стилизуем ссылки на вопросы */
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .question a:hover {
+            /* Добавляем эффект при наведении на ссылки на вопросы */
+            text-decoration: underline;
+        }
+
+        .pagination {
+            /* Выравниваем пагинацию по центру */
+            text-align: center;
+        }
+
+        .step-links a {
+            /* Стилизуем ссылки пагинации */
+            display: inline-block;
+            margin: 0 5px;
+            padding: 5px 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .step-links a:hover {
+            /* Добавляем эффект при наведении на ссылки пагинации */
+            text-decoration: underline;
+        }
+        .button {
+            background: radial-gradient(circle, rgba(6,255,139,1) 0%, rgba(96,169,255,1) 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            /* Здесь добавьте свой стиль для кнопок при наведении */
+            background-color: #3e8e41;
+        }
+        .page-container {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Абсолютно позиционируем пагинацию внизу основного контейнера */
+        .pagination {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Стилизуем блок с вопросами */
+        .questions {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .question {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .question:nth-child(odd) {
+            margin-right: 20px;
+        }
+
+        .question a {
+            color: #333;
+            text-decoration: none;
+        }
+        .tags{
+            border:1px solid black;
+        }
+        .question a:hover {
+            text-decoration: underline;
+        }
+        .text {
+            word-wrap: break-word;
+        }
+    </style>
+</head>

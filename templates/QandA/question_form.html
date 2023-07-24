@@ -1,0 +1,22 @@
+{% extends 'layout/QandA/base.html' %}
+
+{% block title %}
+    Задать вопрос
+{% endblock %}
+
+{% block content %}
+  <section class="container">
+    {% if user.is_authenticated %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Публиковать</button>
+      </form>
+    {% else %}
+      <h2>Только зарегистрированные пользователи могут задать вопрос</h2>
+      <button class="btn" style="border:1px solid #fda90f; hover:background-color:#ffd890;" type="submit">
+        <a href="{% url 'login'%}" class="text-decoration-none text-dark">Войти</a>
+      </button>
+    {% endif %}
+  </section>
+{% endblock %}

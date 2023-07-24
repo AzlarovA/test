@@ -1,0 +1,53 @@
+{% extends 'layout/AMovies/base.html'%}
+
+{% block title %}
+    Жанры
+{% endblock %}
+
+
+{% block content %}
+    <section class="container d-flex flex-column min-vh-100">
+        <h1>{{ genre.genre|title }}</h1>
+        <div class="row">
+            {% for movie in page_obj %}
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <a href="{% url 'movies:movie_detail' movie.slug %}" class="text-decoration-none">
+                        <img src="{{ movie.image.url }}" alt="{{ movie.name }}" class="img-fluid" style="max-height: 200px;">
+                        <div>{{ movie.name }}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination mt-auto d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Предыдущая</span>
+                        </li>
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Следующая</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </section>
+{% endblock %}

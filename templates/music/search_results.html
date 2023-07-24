@@ -1,0 +1,44 @@
+{% extends 'layout/AMovies/base.html'%}
+
+{% block title %}
+    Детальный поиск
+{% endblock %}
+
+{% block content %}
+    <section class="container" style="display:flex; gap:10px;">
+        <div style="max-width: 400px;">
+            <h1>Поиск</h1>
+            <form>
+                {% csrf_token %}
+                <div class="row form-group">
+                    {{form.as_p}}
+                    <div class="form-group">
+                        <input type="submit" value="Send Message" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div>
+            <h3>Результат:</h3>
+            <div>
+                {% if results %}
+                    <ul>
+                        {% for result in results %}
+                            <div style="display:flex; gap:10px;">
+                                <img style="width:200px; height:300px;">{{result.image.url}}</img>
+                                <div>
+                                    <p>{{result.name}}</p>
+                                    <br>
+                                    <a class="genre" href="{% url 'movies:movie_detail' result.slug %}">Перейти</a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Ничего не найдено.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

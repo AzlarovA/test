@@ -1,0 +1,20 @@
+{% extends 'layout/AMovies/base.html'%}
+
+{% block title %}
+    Категории
+{% endblock %}
+
+
+{% block content %}
+    <section class="container">
+        <div class="row">
+            <h5>Все категории</h5>
+            <br>
+            {% for genre in genres %}
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <a href="{% url 'movies:genre_detail' genre.slug %}" class="genre w-100">{{ genre.genre }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

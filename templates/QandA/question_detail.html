@@ -1,0 +1,183 @@
+{% extends 'layout/QandA/base.html' %}
+
+{% block content %}
+<section class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h4 class="border-bottom pb-2 mb-0" style="word-wrap: break-word;">{{question.title}}</h4>
+        <div class="d-flex text-body-secondary pt-3">
+            <img src="{{question.author.image.url}}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height=50" alt="no image">
+            <div class="d-flex flex-column" style="width:95%;">
+                <div class="d-flex justify-content-between">
+                    <p class="pb-3 mb-0 small lh-sm">
+                        <a href="{% url 'user:user_profile' question.author.user.username %}"><strong class="d-block text-gray-dark">@{{question.author.nickname}}</strong></a>
+                    </p>
+                     <div class="ms-auto text-end">
+                        {% for gen in question.genre.all %}
+                            <span style="border:1px solid black;" class="tags"><a href="{% url 'QnA:tag_questions' gen.slug %}">{{ gen.genre }}</a></span>
+                        {% endfor %}
+                        <span>| {{question.created_at }}</span>
+                    </div>
+                </div>
+                <h6 style="word-wrap: break-word; width: 100%;">{{question.content}}</h6>
+            </div>
+        </div>
+        <div class="d-flex">
+            {% if request.user == question.author.user %}
+                <form method="post" action="{% url 'QnA:delete' question.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete_type" value="question">
+                    <input class="btn btn-danger" type="submit" value="Delete question">
+                </form>
+            {% endif %}
+            {% if question.image %}
+                <a class="btn btn-info" href="{{ question.image.url }}" target="_blank">View image</a>
+            {% endif %}
+            {% if question.files %}
+                <a class="btn btn-info" href="{{ question.files.url }}" target="_blank">Download file</a>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+</section>
+<section class="container">
+    <br>
+    {% if user.is_authenticated %}
+        <h3>Ответить:</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post answer</button>
+        </form>
+    {% else %}
+      <h2>Только зарегистрированные пользователи могут ответить на вопрос</h2>
+      <button class="btn" style="border:1px solid #fda90f; hover:background-color:#ffd890;" type="submit">
+        <a href="{% url 'login'%}" class="text-decoration-none text-dark">Войти</a>
+      </button>
+    {% endif %}
+</section>
+<section class="container">
+    <br>
+    <div>
+        {% if best_answer %}
+            <div class="border border-warning p-3 mb-3">
+                <h4>Лучший ответ</h4>
+                {% for commentator in best_answer.commentator.all %}
+                    <div class="d-flex text-body-secondary pt-3">
+                        <img src="{{ commentator.image.url }}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50" alt="no image">
+                        <div class="flex-grow-1">
+                            <p class="pb-3 mb-0 small lh-sm">
+                                <a href="{% url 'user:user_profile' commentator.user.username %}">
+                                    <strong class="d-block text-gray-dark">@{{ commentator }}</strong>
+                                </a>
+                                <span class="fs-5">{{ best_answer.content }}</span>
+                            </p>
+                        </div>
+                        <div class="ms-auto text-end">
+                            {{ commentator.created_at }}
+                        </div>
+                    </div>
+                    <div class="ms-5 d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            {% if best_answer.image %}
+                                <a class="btn btn-info" href="{{ best_answer.image.url }}" target="_blank">View image</a>
+                            {% endif %}
+                            {% if best_answer.files %}
+                                <a class="btn btn-info" href="{{ best_answer.files.url }}" target="_blank">Download file</a>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            {% if request.user == commentator.user %}
+                                <form method="post" action="{% url 'QnA:delete' question.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete_type" value="answer">
+                                    <input type="hidden" name="answer_id" value="{{ best_answer.id }}">
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                </form>
+                            {% endif %}
+                            <div>
+                               <div>Rating: {{ best_answer.rating }}</div>
+                                 {% if request.user.is_authenticated %}
+                                    <form method="post" class="d-inline-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="answer_id" value="{{ best_answer.id }}">
+                                        <input type="hidden" name="vote" value="up">
+                                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                                    </form>
+                                    <form method="post" class="d-inline-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="answer_id" value="{{ best_answer.id }}">
+                                        <input type="hidden" name="vote" value="down">
+                                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <br>
+        <h3>Другие ответы:</h3>
+        {% if answers %}
+            {% for answer in answers %}
+                {% for commentator in answer.commentator.all %}
+                    <div class="d-flex text-body-secondary pt-3">
+                        <img src="{{ commentator.image.url }}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="50" height="50" alt="no image">
+                        <div class="flex-grow-1">
+                            <p class="pb-3 mb-0 small lh-sm">
+                                <a href="{% url 'user:user_profile' commentator.user.username %}">
+                                    <strong class="d-block text-gray-dark">@{{ commentator }}</strong>
+                                </a>
+                                <span class="fs-5">{{ answer.content }}</span>
+                            </p>
+                        </div>
+                        <div class="ms-auto text-end">
+                            {{ commentator.created_at }}
+                        </div>
+                    </div>
+                    <div class="ms-5 d-flex justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                            {% if answer.image %}
+                                <a class="btn btn-info" href="{{ answer.image.url }}" target="_blank">View image</a>
+                            {% endif %}
+                            {% if answer.files %}
+                                <a class="btn btn-info" href="{{ answer.files.url }}" target="_blank">Download file</a>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            {% if request.user == commentator.user %}
+                                <form method="post" action="{% url 'QnA:delete' question.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete_type" value="answer">
+                                    <input type="hidden" name="answer_id" value="{{ answer.id }}">
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                </form>
+                            {% endif %}
+                            <div>
+                                <div>Rating: {{ answer.rating }}</div>
+                                {% if request.user.is_authenticated %}
+                                    <form method="post" class="d-inline-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="answer_id" value="{{ answer.id }}">
+                                        <input type="hidden" name="vote" value="up">
+                                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                                    </form>
+                                    <form method="post" class="d-inline-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="answer_id" value="{{ answer.id }}">
+                                        <input type="hidden" name="vote" value="down">
+                                        <button type="submit" class="btn btn-danger btn-sm">-</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>Пока никто не ответил. Будьте первым, кто ответит!</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

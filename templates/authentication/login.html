@@ -1,0 +1,44 @@
+{% extends 'layout/users/base.html'%}
+{% load static %}
+
+{% block title %}
+   Логин
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+        <section class="container"><h1>Вы уже выполнили вход</h1></section>
+{% else %}
+  <section class="container">
+    <div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+          <div class="modal-header p-5 pb-4 border-bottom-0">
+            <h1 class="fw-bold mb-0 fs-2">Войти в аккаунт</h1>
+          </div>
+          <div class="modal-body p-5 pt-0">
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-floating mb-3">
+                <label for="floatingInput">Ваш юзернейм</label>
+                {{form.username}}
+              </div>
+              <div class="form-floating mb-3">
+                <label for="floatingPassword">Пароль</label>
+                {{form.password1}}
+              </div>
+              <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Войти</button>
+              {% if form.username.errors or form.non_field_errors %}
+                <h6 class="text-danger">Неверный пароль или юзернейм</h6>
+              {% endif%}
+              <small class="text-body-secondary">Нету аккаунта?</small><a href="{% url 'registration'%}">Создать</a>
+              <hr class="my-4">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+{% endblock %}

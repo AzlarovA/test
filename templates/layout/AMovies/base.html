@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'layout/AMovies/head.html' %}
+<body>
+    <div class="page-container d-flex flex-column min-vh-100">
+        {% include 'layout/AMovies/nav.html' %}
+
+        <div class="content flex-grow-1">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+        <div class="footer mt-auto">
+            {% include 'layout/AMovies/footer.html' %}
+        </div>
+    </div>
+</body>
+</html>

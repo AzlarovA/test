@@ -1,0 +1,10 @@
+{% extends 'layout/articles/base.html' %}
+{% load static %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    {% include 'articles\news_list.html' %}
+{% endblock %}

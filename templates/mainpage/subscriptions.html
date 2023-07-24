@@ -1,0 +1,51 @@
+
+<section class="container d-flex flex-column align-items-center">
+  <h4 class="text-align-center">Цены на подписки</h4>
+  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="display: flex; justify-content: center;align-content: stretch; gap:15px">
+      <div class="col" style="width: 250px;">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">1 месяц</h4>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title pricing-card-title">${{subs.subscription_1}}<small class="text-body-secondary fw-light">/мес.</small></h2>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Доступ ко всем сервисам на месяц</li>
+            </ul>
+            <a href="{% url 'subscription:subs_page' %}" type="button" class="w-100 btn btn-lg" style="border:1px solid #fda90f;">Купить</a>
+          </div>
+        </div>
+      </div>
+      <div class="col" style="width: 250px;">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">6 месяц</h4>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title pricing-card-title">${{subs.subscription_3}}<small class="text-body-secondary fw-light">/мес.</small></h2>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Доступ ко всем сервисам на 6 месяц</li>
+              <li>Скидка на 19%</li>
+            </ul>
+            <a href="{% url 'subscription:subs_page' %}" type="button" class="w-100 btn btn-lg" style="border:1px solid #fda90f;">Купить</a>
+          </div>
+        </div>
+      </div>
+      <div class="col" style="width: 250px;">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3 ">
+            <h4 class="my-0 fw-normal">12 месяц</h4>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title pricing-card-title">${{subs.subscription_4}}<small class="text-body-secondary fw-light">/мес.</small></h2>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>Доступ ко всем сервисам на год</li>
+              <li>Скидка на 16%</li>
+            </ul>
+            <a href="{% url 'subscription:subs_page' %}" type="button" class="w-100 btn btn-lg" style="border:1px solid #fda90f;">Купить</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

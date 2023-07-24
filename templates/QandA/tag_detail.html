@@ -1,0 +1,32 @@
+{% extends 'layout/QandA/base.html' %}
+
+{% block title %}
+    Тег
+{% endblock %}
+
+{% block content %}
+  <section class="container">
+      <h1>{{ tag.genre }}</h1>
+        {% if questions %}
+            {% for question in questions %}
+                <div class="question d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex flex-column content">
+                        <b class="mr-2">{{ question.title }}</b>
+                        <div class="text">{{ question.content|truncatechars:40 }}</div>
+                    </div>
+                    <div class="h-100">
+                        {% for genre in question.genre.all|slice:":3" %}
+                            <a class="mr-2 tags" href="{% url 'QnA:tag_questions' genre.slug %}">{{ genre }}</a>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        <a class="button" href="{% url 'QnA:question_detail' pk=question.pk %}">Посмотреть</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Пока никто не задавал вопросов, связанных с этим тегом. Будьте первым!</p>
+            <a href="{% url 'QnA:ask_question' %}" class="btn btn-primary">Задать вопрос</a>
+        {% endif %}
+  </section>
+{% endblock %}

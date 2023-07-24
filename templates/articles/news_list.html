@@ -1,0 +1,18 @@
+
+<section>
+    <div>
+        {% for article in articles %}
+            <div class="d-flex text-body-secondary pt-3">
+                {% if article.image exists %}
+                    <img src="{{article.image.url}}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" alt="no image">
+                {% endif %}
+                <div>
+                    <p>{{ article.content }}</p>
+                </div>
+                <div class="ms-auto text-end">
+                    {{ article.created_at }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
